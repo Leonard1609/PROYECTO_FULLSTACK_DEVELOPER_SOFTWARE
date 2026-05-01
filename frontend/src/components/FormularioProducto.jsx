@@ -1,33 +1,42 @@
 import React, { useState } from 'react';
+import './FormularioProducto.css';
 
-function FormularioProducto() {
-    const [producto, setProducto] = useState({
-        nombre: '', precio: '', stock_actual: '', stock_minimo: ''
-    });
+function FormularioProducto({ onProductoGuardado }) {
+    const [nombre, setNombre] = useState('');
+    const [precio, setPrecio] = useState('');
+    const [stock, setStock] = useState('');
 
-    const handleSubmit = (e) => {
+    const guardar = (e) => {
         e.preventDefault();
+        if (precio <= 0 || stock < 0) return alert("Valores no válidos.");
+
         fetch('http://localhost:5000/api/productos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(producto)
+            body: JSON.stringify({ nombre, precio, stock_actual: stock, stock_minimo: 5 })
         })
         .then(res => res.json())
-        .then(() => alert("Producto registrado en Nova Salud"));
+        .then(() => {
+            alert("✅ Producto guardado correctamente");
+            onProductoGuardado(); // Actualiza App.js inmediatamente
+            setNombre(''); setPrecio(''); setStock('');
+        });
     };
 
     return (
-        <form onSubmit={handleSubmit} className="p-4 border rounded bg-white shadow-sm">
-            <h3>Registrar Medicamento</h3>
-            <input type="text" placeholder="Nombre" className="form-control mb-2" 
-                   onChange={e => setProducto({...producto, nombre: e.target.value})} />
-            <input type="number" placeholder="Precio" className="form-control mb-2" 
-                   onChange={e => setProducto({...producto, precio: e.target.value})} />
-            <input type="number" placeholder="Stock Inicial" className="form-control mb-2" 
-                   onChange={e => setProducto({...producto, stock_actual: e.target.value})} />
-            <button type="submit" className="btn btn-primary w-100">Guardar en Inventario</button>
+        <form className="nova-form" onSubmit={guardar}>
+            <input type="text" placeholder="Nombre" value={nombre} required
+                   onChange={e => setNombre(e.target.value)} />
+            
+            <input type="number" step="0.01" placeholder="Precio (S/)" value={precio} required
+                   onChange={e => setPrecio(e.target.value)} />
+            
+            {/* step="0.01" permite decimales en el stock */}
+            <input type="number" step="0.01" placeholder="Stock Inicial" value={stock} required
+                   onChange={e => setStock(e.target.value)} />
+            
+            <button type="submit" className="btn-save">Guardar Inventario</button>
         </form>
     );
 }
-
 export default FormularioProducto;

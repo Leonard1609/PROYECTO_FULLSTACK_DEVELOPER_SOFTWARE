@@ -62,4 +62,24 @@ app.post('/api/productos', (req, res) => {
     });
 });
 
+// Ruta para procesar la venta y actualizar el inventario automáticamente
+app.post('/api/ventas', (req, res) => {
+    const { id_producto, cantidad, total } = req.body;
+
+    // Usamos una consulta que resta el stock directamente en MySQL
+    const sqlVenta = "INSERT INTO ventas (total) VALUES (?)";
+    const sqlUpdateStock = "UPDATE productos SET stock_actual = stock_actual - ? WHERE id = ?";
+
+    db.query(sqlVenta, [total], (err, result) => {
+        if (err) return res.status(500).send(err);
+
+        // Si la venta se registra, procedemos a descontar el stock
+        db.query(sqlUpdateStock, [cantidad, id_producto], (err, updateResult) => {
+            if (err) return res.status(500).send(err);
+            res.json({ message: "Venta exitosa y stock actualizado" });
+        });
+    });
+});
+
+
 app.listen(5000, () => console.log("Servidor corriendo en puerto 5000"));

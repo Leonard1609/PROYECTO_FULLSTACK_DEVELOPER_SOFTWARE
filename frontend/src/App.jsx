@@ -1,35 +1,49 @@
-import React from 'react';
-import Alertas from './components/Alertas';
+import React, { useState, useEffect } from 'react';
 import FormularioProducto from './components/FormularioProducto';
 import ListaProductos from './components/ListaProductos';
+import Alertas from './components/Alertas';
+import './App.css';
 
 function App() {
-  return (
-    <div className="container py-4">
-      <header className="text-center mb-5">
-        <h1 className="display-4 text-primary">Botica Nova Salud</h1>
-        <p className="lead">Sistema Automatizado de Gestión Farmacéutica</p>
-      </header>
+    const [productos, setProductos] = useState([]);
 
-      <div className="row">
-        <div className="col-md-12">
-          {/* Módulo de Alertas Automáticas para reposición */}
-          <Alertas /> 
-        </div>
-      </div>
+    const cargarDatos = () => {
+        fetch('http://localhost:5000/api/productos')
+            .then(res => res.json())
+            .then(data => setProductos(data)); 
+    };
 
-      <div className="row mt-4">
-        <div className="col-md-4">
-          {/* Registro de nuevos productos para optimizar gestión */}
-          <FormularioProducto />
+    useEffect(() => { cargarDatos(); }, []);
+
+    return (
+        <div className="dashboard-container">
+            <header className="main-header">
+                <h1>Nova Salud 💊</h1>
+                <p>Gestión Farmacéutica Profesional</p>
+            </header>
+            
+            <main className="content">
+                {/* Pasamos los productos actuales a las alertas */}
+                <Alertas productos={productos} />
+                
+                <div className="grid-system">
+                    <section className="side-panel">
+                        <div className="card">
+                            <h3>Registrar Medicamento</h3>
+                            <FormularioProducto onProductoGuardado={cargarDatos} />
+                        </div>
+                    </section>
+                    
+                    <section className="main-panel">
+                        <div className="card">
+                            <h3>Inventario en Tiempo Real</h3>
+                            {/* Pasamos productos y la función de actualizar */}
+                            <ListaProductos productos={productos} onActualizar={cargarDatos} />
+                        </div>
+                    </section>
+                </div>
+            </main>
         </div>
-        <div className="col-md-8">
-          {/* Registro de ventas y atención al cliente ágil */}
-          <ListaProductos />
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
-
 export default App;
