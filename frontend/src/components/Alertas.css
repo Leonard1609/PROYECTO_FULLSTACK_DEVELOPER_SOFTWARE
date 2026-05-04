@@ -1,14 +1,44 @@
+.alerts-container {
+  margin-bottom: 20px;
+}
+
 .alert {
   padding: 15px 20px;
   border-radius: 8px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.alert-danger {
+/* El diseño rojito que te gusta */
+.alert-critical {
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
+  animation: pulse 2s infinite;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.alert-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.alert-content small {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+  100% { transform: scale(1); }
 }

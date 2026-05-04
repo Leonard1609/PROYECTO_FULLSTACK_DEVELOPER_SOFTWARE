@@ -6,36 +6,39 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  color: var(--text-main); /* Forzamos a que la tabla use el color del tema */
 }
 
 .nova-table th {
   text-align: left;
   padding: 15px;
-  border-bottom: 2px solid #eee;
-  color: #777;
+  border-bottom: 2px solid var(--table-border);
+  color: var(--text-alt); /* Usamos el azul claro/brillante para los títulos */
   text-transform: uppercase;
   font-size: 0.85rem;
 }
 
 .nova-table td {
   padding: 15px;
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid var(--table-border);
+  color: var(--text-main); /* El texto de los productos ahora será blanco en modo oscuro */
 }
 
-.text-danger { color: var(--danger); }
+.text-danger { color: #ff4d4d; }
 .fw-bold { font-weight: bold; }
 
 .btn-sell {
-  background: #e7f3ff;
-  color: var(--primary);
-  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  transition: all 0.2s;
 }
 
 .btn-sell:hover {
-  background: var(--primary);
+  background: var(--accent);
   color: white;
 }

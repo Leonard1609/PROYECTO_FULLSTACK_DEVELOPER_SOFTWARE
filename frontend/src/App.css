@@ -1,47 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
 :root {
-  --primary: #007bff;
-  --danger: #dc3545;
-  --bg: #f8f9fa;
-  --text: #333;
+  --bg-main: #e0f2fe;
+  --bg-card: rgba(255, 255, 255, 0.85); 
+  --text-main: #0c4a6e;  
+  --text-alt: #0284c7;
+  --accent: #0ea5e9;
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.dark {
+  --bg-main: #020617;
+  --bg-card: rgba(30, 41, 59, 0.7); 
+  --text-main: #f0f9ff; 
+  --text-alt: #38bdf8;
+  --accent: #38bdf8;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: all 0.3s ease;
 }
 
-.dashboard-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+/* Contenedores Base */
+.login-page, .dashboard-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-main);
 }
 
-.main-header {
+.login-page {
+  justify-content: center;
+  align-items: center;
+}
+
+/* Tarjetas */
+.login-card, .card {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
   text-align: center;
-  margin-bottom: 40px;
 }
 
-.main-header h1 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 5px;
+/* Tipografía */
+.tech-title {
+  color: var(--text-main);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.sub-text {
+  color: var(--text-alt);
+  margin-bottom: 2rem;
+}
+
+/* Botones */
+.btn-tech, .btn-mode, .btn-mode-nav, .btn-logout, .btn-switch {
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  transition: 0.2s;
+  
+}
+
+.btn-tech {
+  background: var(--accent);
+  color: white;
+  padding: 12px 20px;
+  width: 100%;
+  margin-bottom: 10px;
+  
+}
+
+.btn-mode {
+  background-color: transparent;
+  color: #0284c7; 
+  border: 2px solid rgba(2, 132, 199, 0.5); 
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; 
+  transition: all 0.3s ease;
+  margin-top: 25px;
+  max-width: 150px;
+  display: flex;
+  margin: 25px auto 0; 
+  width: fit-content;  
+}
+
+/* Efecto hover para el botón */
+.btn-mode:hover {
+  background-color: rgba(2, 132, 199, 0.1);
+  border-color: #0284c7;
+  transform: translateY(-2px);
+  
+}
+
+/* --- ESTILO PARA EL TEXTO DENTRO DEL BOTÓN (Nuevo) --- */
+.mode-text {
+  font-family: 'Poppins', sans-serif;
+  text-decoration: none; /* Quitamos el subrayado */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- ESTILOS ESPECÍFICOS PARA EL MODO OSCURO --- */
+.dark .btn-mode {
+  color: #0ea5e9; /* Texto en modo oscuro */
+  border-color: rgba(14, 165, 233, 0.5); /* Borde en modo oscuro */
+}
+
+.dark .btn-mode:hover {
+  background-color: rgba(14, 165, 233, 0.1);
+  border-color: #0ea5e9;
+}
+
+/* Layout Dashboard */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .grid-system {
   display: grid;
-  grid-template-columns: 1fr 2fr; /* Columna pequeña para registro, grande para tabla */
-  gap: 30px;
+  grid-template-columns: 350px 1fr;
+  gap: 20px;
+  padding: 20px;
 }
 
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Sombra suave profesional */
+.single-column {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-@media (max-width: 768px) {
-  .grid-system { grid-template-columns: 1fr; } /* Adaptable a celulares */
+.btn-mode-nav {
+  color: var(--text-alt);
+  border: 2px solid rgba(40, 156, 252, 0.5);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-logout {
+  color: var(--text-alt);
+  border: 2px solid rgba(40, 156, 252, 0.5);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }

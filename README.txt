@@ -2,10 +2,10 @@
 
 Para iniciar
 1.- cd backend
-2.- node server.js
+2.- npm install
+3.- node server.js
 
 Para apagar
-
 ctrl + c
 
 
@@ -13,7 +13,8 @@ ctrl + c
 
 Para iniciar
 1.- cd frontend
-2.- npm run dev
+2.- npm install
+3.- npm run dev
 
 Para acabar 
 ctrl + c

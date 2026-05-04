@@ -8,35 +8,57 @@ function FormularioProducto({ onProductoGuardado }) {
 
     const guardar = (e) => {
         e.preventDefault();
-        if (precio <= 0 || stock < 0) return alert("Valores no válidos.");
+
+        const nombreLimpio = nombre.trim();
+        if (nombreLimpio.length < 3) return alert("El nombre es muy corto.");
+        if (precio <= 0) return alert("El precio debe ser mayor a 0.");
+        if (stock < 0) return alert("El stock no puede ser negativo.");
 
         fetch('http://localhost:5000/api/productos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, precio, stock_actual: stock, stock_minimo: 5 })
+            body: JSON.stringify({ 
+                nombre: nombreLimpio, 
+                precio: parseFloat(precio), 
+                stock_actual: parseInt(stock), /* Usamos parseInt para stock */
+                stock_minimo: 5 
+            })
         })
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("Error en el servidor");
+            return res.json();
+        })
         .then(() => {
-            alert("✅ Producto guardado correctamente");
-            onProductoGuardado(); // Actualiza App.js inmediatamente
+            onProductoGuardado(); 
             setNombre(''); setPrecio(''); setStock('');
-        });
+        })
+        .catch(err => alert("Error al guardar: " + err.message));
     };
 
     return (
         <form className="nova-form" onSubmit={guardar}>
-            <input type="text" placeholder="Nombre" value={nombre} required
-                   onChange={e => setNombre(e.target.value)} />
+            <h3 className="tech-title" style={{fontSize: '1.2rem', marginBottom: '10px'}}>Nuevo Ingreso</h3>
             
-            <input type="number" step="0.01" placeholder="Precio (S/)" value={precio} required
-                   onChange={e => setPrecio(e.target.value)} />
+            <div className="input-group">
+                <input type="text" placeholder="Nombre del medicamento" value={nombre} required
+                       onChange={e => setNombre(e.target.value)} />
+            </div>
             
-            {/* step="0.01" permite decimales en el stock */}
-            <input type="number" step="0.01" placeholder="Stock Inicial" value={stock} required
-                   onChange={e => setStock(e.target.value)} />
+            <div className="input-group">
+                <span className="currency-prefix">S/</span>
+                <input type="number" step="0.10" placeholder="Precio" value={precio} required
+                       style={{paddingLeft: '35px'}}
+                       onChange={e => setPrecio(e.target.value)} />
+            </div>
             
-            <button type="submit" className="btn-save">Guardar Inventario</button>
+            <div className="input-group">
+                <input type="number" step="1" placeholder="Stock Inicial" value={stock} required
+                       onChange={e => setStock(e.target.value)} />
+            </div>
+            
+            <button type="submit" className="btn-save">Registrar en Inventario</button>
         </form>
     );
 }
+
 export default FormularioProducto;

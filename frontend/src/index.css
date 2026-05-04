@@ -1,19 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+:root {
+  /* MODO CLARO */
+  --bg-main: #e0f2fe;
+  --bg-card: rgba(255, 255, 255, 0.85); 
+  --text-main: #0c4a6e;  
+  --text-alt: #0284c7;
+  --accent: #0ea5e9;
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --table-border: #eee;
+}
+
+.dark {
+  /* MODO OSCURO */
+  --bg-main: #020617;
+  --bg-card: rgba(30, 41, 59, 0.7); 
+  --text-main: #f0f9ff; 
+  --text-alt: #38bdf8;
+  --accent: #38bdf8;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --table-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif !important;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-}
-
-.card {
-    border-radius: 12px;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border: none;
-    transition: 0.3s;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+  margin: 0;
+  background: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  transition: all 0.3s ease;
 }
