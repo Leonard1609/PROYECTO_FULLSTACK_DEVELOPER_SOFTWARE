@@ -143,9 +143,26 @@ body {
 .top-nav {
   display: flex;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  align-items: center; /* Esto alinea todo verticalmente al centro */
+  padding: 0.8rem 2rem; /* Reducimos un poco el padding vertical */
   background: var(--bg-card);
   border-bottom: 1px solid var(--glass-border);
+  min-height: 60px; /* Le damos una altura mínima fija para que no baile */
+}
+
+.brand {
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center; /* Asegura que el texto interno también se centre */
+  height: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center; /* Alinea los botones con el texto de la izquierda */
 }
 
 .grid-system {
@@ -162,20 +179,23 @@ body {
   width: 100%;
 }
 
-.btn-mode-nav {
-  color: var(--text-alt);
-  border: 2px solid rgba(40, 156, 252, 0.5);
-  padding: 6px 12px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.btn-logout {
-  color: var(--text-alt);
-  border: 2px solid rgba(40, 156, 252, 0.5);
-  padding: 6px 12px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
+.btn-mode-nav, .btn-logout {
+  background: #f1f5f9; /* Color claro neutro */
+  border: 1px solid #cbd5e1;
+  border-radius: 6px; /* Cuadrados agradables */
+  padding: 5px 10px;
+  color: #0f172a;
 }
+
+.dark .btn-mode-nav, .dark .btn-logout {
+  background: #1e293b;
+  border-color: #334155;
+  color: white;
+}
+
