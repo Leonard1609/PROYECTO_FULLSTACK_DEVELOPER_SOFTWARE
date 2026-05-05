@@ -9,9 +9,12 @@ function App() {
     const [view, setView] = useState('login'); 
     const [darkMode, setDarkMode] = useState(true);
     
+    
     // NUEVOS ESTADOS PARA SEGURIDAD
     const [user, setUser] = useState(null); // Almacena el usuario logueado
     const [credenciales, setCredenciales] = useState({ usuario: '', password: '' });
+
+    const [searchTerm, setSearchTerm] = useState('');
 
     const cargarDatos = () => {
         fetch('http://localhost:5000/api/productos')
@@ -63,6 +66,12 @@ function App() {
         }
         return [...acc, { ...item }];
     }, []);
+
+    const productosFiltrados = (view === 'ventas' ? productosAgrupados : productos).filter(p => 
+    p.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.precio.toString().includes(searchTerm) ||
+    (p.fecha_creacion && p.fecha_creacion.includes(searchTerm))
+);
 
     const toggleDarkMode = () => setDarkMode(!darkMode);
     const themeClass = darkMode ? 'dark' : 'light';
@@ -142,12 +151,24 @@ function App() {
                     )}
                     <section className="main-panel">
                         <div className="card">
-                            <h3>{view === 'ventas' ? 'Productos Disponibles' : 'Registro Histórico (CRUD)'}</h3>
+                            <div className="card-header-actions">
+    <h3>{view === 'ventas' ? 'Productos Disponibles' : 'Registro Histórico (CRUD)'}</h3>
+    <div className="search-box">
+        <span className="search-icon">🔍</span>
+        <input 
+            type="text" 
+            placeholder="Buscar por nombre o precio..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="input-search"
+        />
+    </div>
+</div>
                             <ListaProductos 
-                                isGestionView={view === 'gestion'} 
-                                productos={view === 'ventas' ? productosAgrupados : productos} 
-                                onActualizar={cargarDatos} 
-                            />
+    isGestionView={view === 'gestion'} 
+    productos={productosFiltrados} 
+    onActualizar={cargarDatos} 
+/>
                         </div>
                     </section>
                 </div>
