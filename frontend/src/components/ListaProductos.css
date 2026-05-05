@@ -85,3 +85,27 @@
   border-radius: 8px;
   transition: 0.3s;
 }
+
+.btn-sell{
+  background: var(--bg-card);
+  color: var(--text-alt);
+  border: 3px solid var(--table-border);
+  padding: 8px 16px;
+  font-weight: 500;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  transition: 0.3s;
+  justify-content: center;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.btn-sell { color: #0ea5e9; }
+
+.btn-sell:hover {
+  background: #0ea5e9;
+  color: white;
+}

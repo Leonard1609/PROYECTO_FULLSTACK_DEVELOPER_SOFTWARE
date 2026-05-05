@@ -20,7 +20,7 @@ function FormularioProducto({ onProductoGuardado }) {
             body: JSON.stringify({ 
                 nombre: nombreLimpio, 
                 precio: parseFloat(precio), 
-                stock_actual: parseInt(stock), /* Usamos parseInt para stock */
+                stock_actual: parseInt(stock), 
                 stock_minimo: 5 
             })
         })

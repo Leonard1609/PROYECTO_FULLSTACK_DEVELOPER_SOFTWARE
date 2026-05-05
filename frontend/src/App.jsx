@@ -42,7 +42,6 @@ function App() {
 
             if (data.success) {
                 setUser(data.user);
-                // Si es admin va a gestión, si es vendedor va a ventas
                 setView(data.user.rol === 'administrador' ? 'gestion' : 'ventas');
             } else {
                 alert("Usuario o contraseña incorrectos");
