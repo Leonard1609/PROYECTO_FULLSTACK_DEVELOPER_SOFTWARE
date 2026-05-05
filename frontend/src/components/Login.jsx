@@ -4,10 +4,8 @@ import './Login.css';
 function Login({ onLogin }) {
     const [user, setUser] = useState('');
     const [pass, setPass] = useState('');
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Aquí conectarás con tu API de Node.js/Express
         const response = await fetch('http://localhost:5000/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -16,12 +14,11 @@ function Login({ onLogin }) {
         
         const data = await response.json();
         if (data.success) {
-            onLogin(data.user); // Pasamos el objeto usuario con su rol
+            onLogin(data.user); 
         } else {
             alert("Credenciales incorrectas");
         }
     };
-
     return (
         <div className="login-container">
             <form className="login-card" onSubmit={handleSubmit}>
@@ -48,5 +45,4 @@ function Login({ onLogin }) {
         </div>
     );
 }
-
 export default Login;
