@@ -2,169 +2,66 @@
 
 :root {
   --bg-main: #e0f2fe;
-  --bg-card: rgba(255, 255, 255, 0.85); 
-  --text-main: #0c4a6e;  
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --text-main: #0c4a6e;
   --text-alt: #0284c7;
   --accent: #0ea5e9;
   --glass-border: rgba(255, 255, 255, 0.5);
-  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  --shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  --table-border: #e2e8f0;
 }
 
 .dark {
   --bg-main: #020617;
-  --bg-card: rgba(30, 41, 59, 0.7); 
-  --text-main: #f0f9ff; 
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --text-main: #f0f9ff;
   --text-alt: #38bdf8;
   --accent: #38bdf8;
   --glass-border: rgba(255, 255, 255, 0.1);
-  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --table-border: #334155;
 }
 
 * {
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
   margin: 0;
-  background-color: var(--bg-main);
+  background: var(--bg-main);
   color: var(--text-main);
-  transition: all 0.3s ease;
 }
 
-/* Contenedores Base */
-.login-page, .dashboard-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-main);
-}
-
-.login-page {
-  justify-content: center;
-  align-items: center;
-}
-
-/* Tarjetas */
-.login-card, .card {
+/* -------- TARJETAS -------- */
+.card, .login-card {
   background: var(--bg-card);
   backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: 16px;
   padding: 2rem;
   box-shadow: var(--shadow);
-}
-
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-}
-
-/* Tipografía */
-.tech-title {
-  color: var(--text-main);
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-}
-
-.sub-text {
-  color: var(--text-alt);
-  margin-bottom: 2rem;
-}
-
-/* Botones */
-.btn-tech, .btn-mode, .btn-mode-nav, .btn-logout, .btn-switch {
-  cursor: pointer;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  transition: 0.2s;
-  
-}
-
-.btn-tech {
-  background: var(--accent);
-  color: white;
-  padding: 12px 20px;
-  width: 100%;
-  margin-bottom: 10px;
-  
-}
-
-.btn-mode {
-  background-color: transparent;
-  color: #0284c7; 
-  border: 2px solid rgba(2, 132, 199, 0.5); 
-  padding: 8px 16px;
-  cursor: pointer;
-  font-weight: 500;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px; 
-  transition: all 0.3s ease;
-  margin-top: 25px;
-  max-width: 150px;
-  display: flex;
-  margin: 25px auto 0; 
-  width: fit-content;  
+  flex-direction: column;
+  gap: 15px;
 }
 
-/* Efecto hover para el botón */
-.btn-mode:hover {
-  background-color: rgba(2, 132, 199, 0.1);
-  border-color: #0284c7;
-  transform: translateY(-2px);
-  
-}
-
-/* --- ESTILO PARA EL TEXTO DENTRO DEL BOTÓN (Nuevo) --- */
-.mode-text {
-  font-family: 'Poppins', sans-serif;
-  text-decoration: none; /* Quitamos el subrayado */
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* --- ESTILOS ESPECÍFICOS PARA EL MODO OSCURO --- */
-.dark .btn-mode {
-  color: #0ea5e9; /* Texto en modo oscuro */
-  border-color: rgba(14, 165, 233, 0.5); /* Borde en modo oscuro */
-}
-
-.dark .btn-mode:hover {
-  background-color: rgba(14, 165, 233, 0.1);
-  border-color: #0ea5e9;
-}
-
-/* Layout Dashboard */
+/* -------- NAV -------- */
 .top-nav {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Esto alinea todo verticalmente al centro */
-  padding: 0.8rem 2rem; /* Reducimos un poco el padding vertical */
+  align-items: center;
+  padding: 0.8rem 2rem;
   background: var(--bg-card);
   border-bottom: 1px solid var(--glass-border);
-  min-height: 60px; /* Le damos una altura mínima fija para que no baile */
-}
-
-.brand {
-  color: var(--text-main);
-  font-weight: 600;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center; /* Asegura que el texto interno también se centre */
-  height: 100%;
 }
 
 .nav-actions {
   display: flex;
-  gap: 12px;
-  align-items: center; /* Alinea los botones con el texto de la izquierda */
+  gap: 10px;
 }
 
+/* -------- GRID -------- */
 .grid-system {
   display: grid;
   grid-template-columns: 350px 1fr;
@@ -174,28 +71,130 @@ body {
 
 .single-column {
   padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.main-panel {
   width: 100%;
 }
 
-.nav-actions {
+/* -------- HEADER DEL CARD (AQUÍ ESTABA TU PROBLEMA) -------- */
+.card-header-actions {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* -------- BUSCADOR NOVA -------- */
+.search-box {
+  display: flex;
+  align-items: center;
   gap: 10px;
+  background: var(--bg-main);
+  border: 1px solid var(--glass-border);
+  padding: 10px 16px;
+  border-radius: 12px;
+  min-width: 340px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.search-icon {
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.input-search {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  width: 100%;
+}
+
+/* -------- BOTONES -------- */
+.btn-tech {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  cursor: pointer;
+}
+
+/* -------- RESPONSIVE -------- */
+@media (max-width: 900px) {
+  .grid-system {
+    grid-template-columns: 1fr;
+  }
+
+  .card-header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-box {
+    min-width: 100%;
+  }
+}
+
+/* ================= LOGIN ORIGINAL RESTAURADO ================= */
+
+.login-page{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.btn-mode-nav, .btn-logout {
-  background: #f1f5f9; /* Color claro neutro */
-  border: 1px solid #cbd5e1;
-  border-radius: 6px; /* Cuadrados agradables */
-  padding: 5px 10px;
-  color: #0f172a;
+.login-card{
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  display: block; /* evita que herede el flex de .card */
 }
 
-.dark .btn-mode-nav, .dark .btn-logout {
-  background: #1e293b;
-  border-color: #334155;
-  color: white;
+.login-inputs{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-login{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: var(--bg-main);
+  color: var(--text-main);
+  outline: none;
+}
+
+/* Botón modo como lo tenías */
+.btn-mode{
+  background-color: transparent;
+  color: var(--text-alt);
+  border: 2px solid rgba(2,132,199,0.5);
+  padding: 8px 16px;
+  font-weight: 500;
+  margin: 25px auto 0;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-mode:hover{
+  background-color: rgba(2,132,199,0.1);
+  transform: translateY(-2px);
+}
+
+.dark .btn-mode{
+  border-color: rgba(14,165,233,0.5);
 }
 

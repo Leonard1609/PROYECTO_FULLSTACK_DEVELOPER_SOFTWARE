@@ -1,5 +1,11 @@
 .alerts-container {
   margin-bottom: 20px;
+  width: 100%;             
+  max-width: 800px;        
+  margin-left: auto;       
+  margin-right: auto;      
+  padding: 0 10px;         
+  box-sizing: border-box;  
 }
 
 .alert {
@@ -9,8 +15,10 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-family: 'Poppins', sans-serif !important; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;             
+  box-sizing: border-box;  
 }
 
 /* El diseño rojito que te gusta */

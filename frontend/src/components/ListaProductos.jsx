@@ -78,15 +78,17 @@ function ListaProductos({ productos, onActualizar, isGestionView }) {
                                     </td>
                                     <td>{formatCurrency(p.precio)}</td>
                                     {isGestionView && <td>{new Date(p.fecha_creacion || Date.now()).toLocaleDateString()}</td>}
-                                    <td>
+<td>
     {isGestionView ? (
-        // Si estamos en GESTIÓN, mostramos Editar y Borrar
         <div className="btn-group-admin">
-            <button className="btn-edit" onClick={() => iniciarEdicion(p)}>✏️</button>
-            <button className="btn-delete" onClick={() => eliminarProducto(p.id)}>🗑️</button>
+            <button className="btn-edit" onClick={() => iniciarEdicion(p)} title="Editar">
+                ✎
+            </button>
+            <button className="btn-delete" onClick={() => eliminarProducto(p.id)} title="Eliminar">
+                🗑
+            </button>
         </div>
     ) : (
-        // Si estamos en VENTAS, mostramos el botón de Vender que ya tenías
         <button 
             className="btn-sell" 
             onClick={() => realizarVenta(p.id, p.stock_actual, p.precio, p.nombre)}

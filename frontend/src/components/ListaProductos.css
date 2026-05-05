@@ -5,40 +5,83 @@
 .nova-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
-  color: var(--text-main); /* Forzamos a que la tabla use el color del tema */
+  color: var(--text-main);
+}
+
+.nova-table th,
+.nova-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--table-border);
+  text-align: left;
 }
 
 .nova-table th {
-  text-align: left;
-  padding: 15px;
-  border-bottom: 2px solid var(--table-border);
-  color: var(--text-alt); /* Usamos el azul claro/brillante para los títulos */
+  color: var(--text-alt);
   text-transform: uppercase;
   font-size: 0.85rem;
 }
 
-.nova-table td {
-  padding: 15px;
-  border-bottom: 1px solid var(--table-border);
-  color: var(--text-main); /* El texto de los productos ahora será blanco en modo oscuro */
+/* Botones admin */
+.btn-group-admin {
+  display: flex;
+  gap: 8px;
 }
 
-.text-danger { color: #ff4d4d; }
-.fw-bold { font-weight: bold; }
-
-.btn-sell {
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  padding: 6px 12px;
-  border-radius: 6px;
+.btn-edit, .btn-delete {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
+  background: var(--bg-card);
+  border: 1px solid var(--table-border);
+  transition: 0.2s;
 }
 
-.btn-sell:hover {
-  background: var(--accent);
+.btn-edit { color: #0ea5e9; }
+.btn-delete { color: #ef4444; }
+
+.btn-edit:hover {
+  background: #0ea5e9;
   color: white;
+}
+
+.btn-delete:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.stock-critical {
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+.btn-mode-nav{
+  background-color: transparent;
+  color: var(--text-alt);
+  border: 2px solid rgba(2,132,199,0.5);
+  padding: 8px 16px;
+  font-weight: 500;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-logout{
+  background-color: transparent;
+  color: var(--text-alt);
+  border: 2px solid rgba(2,132,199,0.5);
+  padding: 8px 16px;
+  font-weight: 500;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  transition: 0.3s;
 }
