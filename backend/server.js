@@ -9,13 +9,35 @@ app.use(express.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '', // Asegúrate de que coincida con tu config de XAMPP/MySQL
+    password: '', // Tu contraseña de XAMPP/MySQL
     database: 'nova_salud'
 });
 
 db.connect(err => {
     if (err) console.error("Error conectando a la BD:", err);
     else console.log("Conectado a MySQL: Nova Salud Activo 🚀");
+});
+
+// ==========================================
+// --- NUEVA ÁREA DE AUTENTICACIÓN (LOGIN) ---
+// ==========================================
+app.post('/api/login', (req, res) => {
+    const { usuario, password } = req.body;
+    
+    // Buscamos al usuario por nombre y contraseña
+    const sql = "SELECT id, usuario, rol FROM usuarios WHERE usuario = ? AND password = ?";
+    
+    db.query(sql, [usuario, password], (err, results) => {
+        if (err) return res.status(500).json({ success: false, error: err });
+        
+        if (results.length > 0) {
+            // Si existe, devolvemos success y los datos del usuario (sin la contraseña)
+            res.json({ success: true, user: results[0] });
+        } else {
+            // Si no coincide, indicamos el error
+            res.json({ success: false, message: "Credenciales inválidas" });
+        }
+    });
 });
 
 // --- ÁREA DE ALERTAS ---
@@ -34,12 +56,10 @@ app.post('/api/ventas', (req, res) => {
     db.beginTransaction((err) => {
         if (err) return res.status(500).json(err);
 
-        // 1. Insertar en tabla ventas
         const sqlVenta = "INSERT INTO ventas (total) VALUES (?)";
         db.query(sqlVenta, [total], (err, result) => {
             if (err) return db.rollback(() => res.status(500).json(err));
 
-            // 2. Descontar stock
             const sqlUpdateStock = "UPDATE productos SET stock_actual = stock_actual - ? WHERE id = ?";
             db.query(sqlUpdateStock, [cantidad, id_producto], (err) => {
                 if (err) return db.rollback(() => res.status(500).json(err));
@@ -53,11 +73,10 @@ app.post('/api/ventas', (req, res) => {
     });
 });
 
-// --- ÁREA DE PRODUCTOS (CRUD COMPLETO) ---
+// --- ÁREA DE PRODUCTOS (CRUD) ---
 
 // READ: Obtener todos
 app.get('/api/productos', (req, res) => {
-    // Agregamos fecha_creacion si la tienes para el orden cronológico
     const sql = "SELECT * FROM productos ORDER BY id DESC"; 
     db.query(sql, (err, results) => {
         if (err) return res.status(500).json(err);
@@ -65,7 +84,7 @@ app.get('/api/productos', (req, res) => {
     });
 });
 
-// CREATE: Agregar nuevo lote
+// CREATE: Agregar nuevo producto
 app.post('/api/productos', (req, res) => {
     const { nombre, precio, stock_actual, stock_minimo } = req.body;
     const sql = "INSERT INTO productos (nombre, precio, stock_actual, stock_minimo) VALUES (?, ?, ?, ?)";
@@ -75,7 +94,7 @@ app.post('/api/productos', (req, res) => {
     });
 });
 
-// UPDATE: Editar producto (Para corregir errores en Gestión)
+// UPDATE: Editar producto
 app.put('/api/productos/:id', (req, res) => {
     const { id } = req.params;
     const { nombre, precio, stock_actual, stock_minimo } = req.body;
@@ -86,7 +105,7 @@ app.put('/api/productos/:id', (req, res) => {
     });
 });
 
-// DELETE: Eliminar producto (Solo para administradores)
+// DELETE: Eliminar producto
 app.delete('/api/productos/:id', (req, res) => {
     const { id } = req.params;
     const sql = "DELETE FROM productos WHERE id = ?";

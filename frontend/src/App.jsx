@@ -8,6 +8,10 @@ function App() {
     const [productos, setProductos] = useState([]);
     const [view, setView] = useState('login'); 
     const [darkMode, setDarkMode] = useState(true);
+    
+    // NUEVOS ESTADOS PARA SEGURIDAD
+    const [user, setUser] = useState(null); // Almacena el usuario logueado
+    const [credenciales, setCredenciales] = useState({ usuario: '', password: '' });
 
     const cargarDatos = () => {
         fetch('http://localhost:5000/api/productos')
@@ -16,17 +20,40 @@ function App() {
             .catch(err => console.error("Error cargando productos:", err));
     };
 
-    useEffect(() => { 
-        cargarDatos(); 
-    }, []);
+    useEffect(() => { cargarDatos(); }, []);
 
     useEffect(() => {
-        if (darkMode) {
-            document.body.classList.add('dark');
-        } else {
-            document.body.classList.remove('dark');
-        }
+        document.body.classList.toggle('dark', darkMode);
     }, [darkMode]);
+
+    // LÓGICA DE LOGIN
+    const manejarLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(credenciales)
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                setUser(data.user);
+                // Si es admin va a gestión, si es vendedor va a ventas
+                setView(data.user.rol === 'administrador' ? 'gestion' : 'ventas');
+            } else {
+                alert("Usuario o contraseña incorrectos");
+            }
+        } catch (error) {
+            alert("Error al conectar con el servidor");
+        }
+    };
+
+    const logout = () => {
+        setUser(null);
+        setView('login');
+        setCredenciales({ usuario: '', password: '' });
+    };
 
     const productosAgrupados = productos.reduce((acc, item) => {
         const existe = acc.find(p => p.nombre.toLowerCase() === item.nombre.toLowerCase());
@@ -40,41 +67,66 @@ function App() {
     const toggleDarkMode = () => setDarkMode(!darkMode);
     const themeClass = darkMode ? 'dark' : 'light';
 
+    // PANTALLA DE LOGIN (CON SEGURIDAD)
     if (view === 'login') {
         return (
             <div className={`login-page ${themeClass}`}>
-                <div className="login-card">
+                <form className="login-card" onSubmit={manejarLogin}>
                     <h1 className="tech-title">NOVA SALUD 💊</h1>
-                    <p className="sub-text">Seleccione área de acceso</p>
-                    <div className="login-actions">
-                        <button className="btn-tech" onClick={() => setView('ventas')}>Área de Ventas</button>
-                        <button className="btn-tech" onClick={() => setView('gestion')}>Gestión Administrativa</button>
+                    <p className="sub-text">Control de Acceso de Seguridad</p>
+                    
+                    <div className="login-inputs" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
+                        <input 
+                            className="input-login"
+                            type="text" 
+                            placeholder="Usuario" 
+                            value={credenciales.usuario}
+                            onChange={(e) => setCredenciales({...credenciales, usuario: e.target.value})}
+                            required 
+                        />
+                        <input 
+                            className="input-login"
+                            type="password" 
+                            placeholder="Contraseña" 
+                            value={credenciales.password}
+                            onChange={(e) => setCredenciales({...credenciales, password: e.target.value})}
+                            required 
+                        />
                     </div>
-                    <button onClick={toggleDarkMode} className="btn-mode">
-  <span className="mode-text">
-    {darkMode ? '☀️ Modo Claro' : '🌙 Modo Oscuro'}
-  </span>
-</button>
-                </div>
+
+                    <button type="submit" className="btn-tech">Ingresar al Sistema</button>
+                    
+                    <button type="button" onClick={toggleDarkMode} className="btn-mode" style={{marginTop: '20px'}}>
+                        {darkMode ? '☀️ Modo Claro' : '🌙 Modo Oscuro'}
+                    </button>
+                </form>
             </div>
         );
     }
 
+    // DASHBOARD (VENTAS O GESTIÓN)
     return (
         <div className={`dashboard-wrapper ${themeClass}`}>
             <nav className="top-nav">
-                <span className="brand">Nova Salud - {view === 'ventas' ? 'Punto de Venta' : 'Administración'}</span>
+                <span className="brand">
+                    Nova Salud - {view === 'ventas' ? 'Punto de Venta' : 'Administración'} 
+                    <small style={{marginLeft: '10px', opacity: 0.7}}>(Sesión: {user?.usuario})</small>
+                </span>
                 <div className="nav-actions">
                     <button className="btn-mode-nav" onClick={toggleDarkMode}>{darkMode ? '☀️' : '🌙'}</button>
-                    <button onClick={() => setView('login')} className="btn-logout">Cerrar Sesión</button>
+                    <button onClick={logout} className="btn-logout">Cerrar Sesión</button>
                 </div>
             </nav>
 
             <header className="main-header" style={{ padding: '1rem 2rem' }}>
                 <h1 className="tech-title">{view === 'ventas' ? 'Atención al Cliente' : 'Panel de Inventario'}</h1>
-                <button className="btn-tech" style={{ width: 'auto' }} onClick={() => setView(view === 'ventas' ? 'gestion' : 'ventas')}>
-                    {view === 'ventas' ? '← Ir a Gestión' : 'Ir a Ventas →'}
-                </button>
+                
+                {/* 🛡️ SEGURIDAD: Solo el admin puede ver el botón para cambiar entre vistas */}
+                {user?.rol === 'administrador' && (
+                    <button className="btn-tech" style={{ width: 'auto' }} onClick={() => setView(view === 'ventas' ? 'gestion' : 'ventas')}>
+                        {view === 'ventas' ? '← Ir a Gestión' : 'Ir a Ventas →'}
+                    </button>
+                )}
             </header>
             
             <main className="content">
